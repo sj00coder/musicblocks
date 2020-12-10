@@ -110,11 +110,11 @@ function PitchDrumMatrix() {
         widgetWindow.show();
 
         // For the button callbacks
-        let that = this;
+         
 
-        widgetWindow.onclose = function() {
+        widgetWindow.onclose = () => {
             pdmTableDiv.style.visibility = "hidden";
-            that._logo.hideMsgs();
+            this._logo.hideMsgs();
             this.destroy();
         };
 
@@ -122,9 +122,9 @@ function PitchDrumMatrix() {
             "play-button.svg",
             ICONSIZE,
             _("Play")
-        ).onclick = function() {
-            that._logo.turtleDelay = 0;
-            that._playAll();
+        ).onclick = () => {
+            this._logo.turtleDelay = 0;
+            this._playAll();
         };
 
         this._save_lock = false;
@@ -132,13 +132,13 @@ function PitchDrumMatrix() {
             "export-chunk.svg",
             ICONSIZE,
             _("Save")
-        ).onclick = function() {
+        ).onclick = () => {
             // Debounce button
-            if (!that._get_save_lock()) {
-                that._save_lock = true;
-                that._save();
-                setTimeout(function() {
-                    that._save_lock = false;
+            if (!this._get_save_lock()) {
+                this._save_lock = true;
+                this._save();
+                setTimeout(() => {
+                    this._save_lock = false;
                 }, 1000);
             }
         };
@@ -147,8 +147,8 @@ function PitchDrumMatrix() {
             "erase-button.svg",
             ICONSIZE,
             _("Clear")
-        ).onclick = function() {
-            that._clear();
+        ).onclick = () => {
+            this._clear();
         };
 
         this.pitchDrumDiv = document.createElement("div");
@@ -429,7 +429,7 @@ function PitchDrumMatrix() {
         let drumRow;
         let drumCell;
         let cell;
-        let that = this;
+         
         for (let i = 0; i < pdmTable.rows.length - 1; i++) {
             table = docById("pdmCellTable" + i);
             cellRow = table.rows[0];
@@ -440,15 +440,15 @@ function PitchDrumMatrix() {
                 drumRow = drumTable.rows[0];
                 drumCell = drumRow.cells[j];
 
-                cell.onclick = function() {
-                    let rowcol = this.id.split(",");
-                    if (this.style.backgroundColor === "black") {
-                        this.style.backgroundColor =
+                cell.onclick = () => {
+                    let rowcol = cell.id.split(",");
+                    if (cell.style.backgroundColor === "black") {
+                        cell.style.backgroundColor =
                             platformColor.selectorBackground;
-                        that._setCellPitchDrum(rowcol[1], rowcol[0], false);
+                        this._setCellPitchDrum(rowcol[1], rowcol[0], false);
                     } else {
-                        this.style.backgroundColor = "black";
-                        that._setCellPitchDrum(rowcol[1], rowcol[0], true);
+                        cell.style.backgroundColor = "black";
+                        this._setCellPitchDrum(rowcol[1], rowcol[0], true);
                     }
                 };
             }
@@ -546,13 +546,13 @@ function PitchDrumMatrix() {
         }
 
         if (i < pairs.length - 1) {
-            let that = this;
-            setTimeout(function() {
+             
+            setTimeout(() => {
                 let ii = i + 1;
-                that._playPitchDrum(ii, pairs);
+                this._playPitchDrum(ii, pairs);
             }, 1000);
         } else {
-            setTimeout(function() {
+            setTimeout(( ) => {
                 for (let ii = 0; ii < pdmTable.rows.length - 1; ii++) {
                     pdmTable.rows[ii].cells[0].style.backgroundColor =
                         platformColor.labelColor;
@@ -651,9 +651,9 @@ function PitchDrumMatrix() {
                 0, note.replace(/♭/g, "b").replace(/♯/g, "#"), 0.125, "default", null, null
             );
 
-            let that = this;
-            setTimeout(function() {
-                that._logo.synth.trigger(0, "C2", 0.125, drumName, null, null);
+             
+            setTimeout(() => {
+                this._logo.synth.trigger(0, "C2", 0.125, drumName, null, null);
             }, waitTime);
         }
     };
